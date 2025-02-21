@@ -8,6 +8,9 @@ if (localStorage.getItem("difficulty") === null) {
 if (localStorage.getItem("showIndicators") === null) {
   localStorage.setItem("showIndicators", JSON.stringify(false));
 }
+if (localStorage.getItem("sound") === null || localStorage.getItem("sound") === "true") {
+  localStorage.setItem("sound", JSON.stringify(false));
+}
 
 const initialState = {
   page: {
@@ -17,6 +20,7 @@ const initialState = {
   settings: {
     difficulty: JSON.parse(localStorage.getItem("difficulty")),
     showIndicators: JSON.parse(localStorage.getItem("showIndicators")),
+    sound: JSON.parse(localStorage.getItem("sound")),
   },
 };
 
@@ -68,6 +72,17 @@ const menuSlice = createSlice({
         return { payload: { showIndicators } };
       },
     },
+
+    setSound: {
+      reducer(state, action){
+        const { sound } = action.payload;
+        localStorage.setItem("sound", JSON.stringify(sound));
+        state.settings.sound = sound;
+      },
+      prepare(sound){
+        return { payload: {sound}}
+      }
+    }
   },
 });
 
@@ -75,6 +90,7 @@ export const selectPage = (state) => state.menu.page;
 export const selectDifficulty = (state) => state.menu.settings.difficulty;
 export const selectShowIndicators = (state) =>
   state.menu.settings.showIndicators;
-export const { switchPage, setDifficulty, setShowIndicators } =
+export const selectSound = (state) => state.menu.settings.sound;
+export const { switchPage, setDifficulty, setShowIndicators, setSound } =
   menuSlice.actions;
 export default menuSlice.reducer;

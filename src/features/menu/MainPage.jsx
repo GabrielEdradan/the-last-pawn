@@ -1,16 +1,27 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { switchPage } from "../../data/menuSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { switchPage, selectSound } from "../../data/menuSlice";
 import { PageName, TRANSITION_HALF_LIFE, sleep } from "../../global/utils";
 import styles from "./MainPage.module.scss";
 
 import Logo from "./components/Logo";
+import MainPageUI from "../game/components/ui/MainPageUI";
+
 
 const MainPage = () => {
   const [disabled, setDisabled] = useState(true);
   const [hasClicked, setHasClicked] = useState(false);
   const dispatch = useDispatch();
+  
+  const hoverAudio = new Audio('/the-last-pawn/sounds/button_hover.mp3')
+  const currSound = useSelector(selectSound);
 
+  const handleMouseEnter = () => {
+    if(currSound){
+      hoverAudio.play();
+    }
+  }
+  
   useEffect(() => {
     (async () => {
       await sleep(TRANSITION_HALF_LIFE);
@@ -19,6 +30,16 @@ const MainPage = () => {
   }, []);
 
   return (
+    <>
+      <MainPageUI 
+        touchHandlers={()=>{}}
+        turnNumber={()=>{}}
+        score={()=>{}}
+        captureCooldownPercent={
+          ()=>{}
+        }
+        isGameOver={()=>{}}
+      />
     <main className={styles.mainMenu}>
       <div>
         <h1 className={styles.logo}>
@@ -33,6 +54,7 @@ const MainPage = () => {
             setHasClicked(true);
           }}
           disabled={disabled}
+          onMouseEnter={handleMouseEnter}
         >
           PLAY
         </button>
@@ -44,6 +66,7 @@ const MainPage = () => {
             setHasClicked(true);
           }}
           disabled={disabled}
+          onMouseEnter={handleMouseEnter}
         >
           HOW TO PLAY
         </button>
@@ -55,6 +78,7 @@ const MainPage = () => {
             setHasClicked(true);
           }}
           disabled={disabled}
+          onMouseEnter={handleMouseEnter}
         >
           OPTIONS
         </button>
@@ -71,6 +95,7 @@ const MainPage = () => {
         </button> */}
       </div>
     </main>
+    </>
   );
 };
 

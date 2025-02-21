@@ -6,6 +6,12 @@ $gameOverHeight: 20rem;
   position: absolute;
   z-index: theme.$z-ind-game-ui;
 }
+.hudMainPage {
+  width: 100vw;
+  height: 15vh;
+  position: absolute;
+  z-index: theme.$z-ind-game-ui;
+}
 
 .touchArea {
   width: 100%;
